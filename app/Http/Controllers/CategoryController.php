@@ -32,7 +32,22 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'max:255', 'unique:categories,slug'],
+            'description' => ['nullable', 'string'],
+        ]);
+
+        $category = Category::create([
+            'name' => $validated['name'],
+            'slug' => $validated['slug'],
+            'description' => $validated['description'] ?? null,
+        ]);
+
+        return response()->json([
+            'message' => 'Category created successfully',
+            'category' => $category,
+        ], 201);
     }
 
     /**
