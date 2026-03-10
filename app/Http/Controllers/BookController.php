@@ -12,7 +12,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::all();
+        $books = Book::with('category')->get();
 
         return response()->json([
             'books' => $books
@@ -40,7 +40,11 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        $book->load('category');
+        
+        return response()->json([
+            'book' => $book
+        ]);
     }
 
     /**
