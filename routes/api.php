@@ -17,3 +17,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('/category', [CategoryController::class, 'index']);
+Route::get('/category/{category}', [CategoryController::class, 'show']);
