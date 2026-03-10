@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CopyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,3 +35,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/books/{book}', [BookController::class, 'update']);
     Route::delete('/books/{book}', [BookController::class, 'destroy']);
 });
+
+Route::get('/copies', [CopyController::class, 'index']);

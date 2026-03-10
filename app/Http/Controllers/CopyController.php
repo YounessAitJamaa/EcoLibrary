@@ -12,7 +12,11 @@ class CopyController extends Controller
      */
     public function index()
     {
-        //
+        $copies = Copy::with('book')->get();
+
+        return response()->json([
+            'copies' => $copies
+        ]);
     }
 
     /**
