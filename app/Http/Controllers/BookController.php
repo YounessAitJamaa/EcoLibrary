@@ -32,7 +32,26 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'category_id'  => ['required', 'exists:categories,id'],
+            'title'         => ['required', 'string', 'max:255'],
+            'author'        => ['required', 'string', 'max:255'],
+            'slug'          => ['required', 'string', 'unique:books,slug'],
+            'description'   => ['nullable', 'string'],
+        ]);
+
+        $book = Book::create([
+            'category_id'  => $validate['category_id'],
+            'title'         => $validate['title'],
+            'author'        => $validate['author'],
+            'slug'          => $validate['slug'],
+            'description'   => $validate['description'] ?? null,
+        ]);
+
+        return response()->json([
+            'message'   => 'Book Created Successfully',
+            'book'      => $book,
+        ], 201);
     }
 
     /**
@@ -41,7 +60,7 @@ class BookController extends Controller
     public function show(Book $book)
     {
         $book->load('category');
-        
+
         return response()->json([
             'book' => $book
         ]);
