@@ -11,7 +11,8 @@ class Book extends Model
         'title',
         'author',
         'slug',
-        'description'
+        'description',
+        'view_count'
     ];
 
     public function category()
@@ -22,5 +23,17 @@ class Book extends Model
     public function copies()
     {
         return $this->hasMany(Copy::class);
+    }
+
+    public function scopeAvailable($query)
+    {
+        return $query->whereHas('copies', function($q) {
+            $q->where('status', 'available');
+        });
+    }
+
+    public function scopePopular($query)
+    {
+        return $query->orderBy('view_count', 'desc');
     }
 }

@@ -31,6 +31,17 @@ class BookController extends Controller
             });
         }
 
+        if($request->boolean('available'))
+        {
+            $query->available();
+        }
+
+        if($request->sort === 'popular')
+        {
+            $query->popular();
+        }
+
+
         $books = $query->latest()->get();
 
         return response()->json([
@@ -78,10 +89,9 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        $book->load('category');
-
+        $book->increment('view_count');
         return response()->json([
-            'book' => $book
+            'book' => $book->load('category')
         ]);
     }
 
