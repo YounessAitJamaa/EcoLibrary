@@ -79,7 +79,21 @@ class CopyController extends Controller
      */
     public function update(Request $request, Copy $copy)
     {
-        //
+        $validated = $request->validate([
+            'status' => ['required', 'in:available,borrowed,degraded'],
+        ]);
+
+        $copy->update([
+            'status' => $validated['status'],
+            'degraded_at' => $validated['status'] === 'degraded' ? now() : null,
+        ]);
+
+        $copy->load('book');
+
+        return response()->json([
+            'message' => 'copy updated successfully',
+            'copy' => $copy
+        ]);
     }
 
     /**
