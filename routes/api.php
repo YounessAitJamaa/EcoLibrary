@@ -37,3 +37,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('/copies', [CopyController::class, 'index']);
+Route::get('/copies/{copy}', [CopyController::class, 'show']);

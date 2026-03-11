@@ -40,7 +40,11 @@ class CopyController extends Controller
      */
     public function show(Copy $copy)
     {
-        //
+        $copy->load('book');
+
+        return response()->json([
+            'copy' => $copy
+        ]);
     }
 
     /**
