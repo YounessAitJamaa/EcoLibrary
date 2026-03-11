@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Copy;
 use Illuminate\Http\Request;
 
+use function Symfony\Component\Clock\now;
+
 class CopyController extends Controller
 {
     /**
@@ -32,7 +34,24 @@ class CopyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'book_id' => ['required', 'exists:books,id'],  
+            'status' => ['required', 'in:available,borrowed,degraded'],
+        ]);
+
+        $copy = Copy::create([
+            'book_id' => $validated['book_id'],
+            'status' => $validated['status'],
+            'degraded_at' => $validated['status'] === 'degraded' ? now() : null,
+        ]);
+
+        $copy->load('book');
+
+        return response()->json([
+            'message' => 'Copy Created successfully',
+            'copy' => $copy,
+        ], 201);
+
     }
 
     /**
