@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\StatsController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CopyController;
@@ -43,4 +44,8 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::post('/copies', [CopyController::class, 'store']);
     Route::put('/copies/{copy}', [CopyController::class, 'update']);
     Route::delete('/copies/{copy}', [CopyController::class, 'destroy']);
+});
+
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::get('/admin/stats', [StatsController::class, 'index']);
 });

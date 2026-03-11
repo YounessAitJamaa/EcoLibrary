@@ -15,6 +15,10 @@ class Book extends Model
         'view_count'
     ];
 
+    protected $casts = [
+        'view_count' => 'integer'
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
