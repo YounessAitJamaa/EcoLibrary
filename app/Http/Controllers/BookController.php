@@ -39,10 +39,13 @@ class BookController extends Controller
         if($request->sort === 'popular')
         {
             $query->popular();
+        } elseif ($request->sort === 'recent') {
+            $query->newArrivals();
+        } else {
+            $query->latest();
         }
-
-
-        $books = $query->latest()->get();
+        
+        $books = $query->get();
 
         return response()->json([
             'books' => $books

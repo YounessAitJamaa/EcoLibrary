@@ -25,6 +25,16 @@ class Book extends Model
         return $this->hasMany(Copy::class);
     }
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function scopeNewArrivals($query)
+    {
+        return $query->latest();
+    }
+
     public function scopeAvailable($query)
     {
         return $query->whereHas('copies', function($q) {
