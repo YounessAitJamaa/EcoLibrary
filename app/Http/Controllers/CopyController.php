@@ -101,6 +101,10 @@ class CopyController extends Controller
      */
     public function destroy(Copy $copy)
     {
-        //
+        $copy->delete();
+
+        return response()->json([
+            'message' => 'Copy deleted Successfully',
+        ]);
     }
 }

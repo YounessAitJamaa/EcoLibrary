@@ -42,4 +42,5 @@ Route::get('/copies/{copy}', [CopyController::class, 'show']);
 Route::middleware('auth:sanctum')->group(function (){
     Route::post('/copies', [CopyController::class, 'store']);
     Route::put('/copies/{copy}', [CopyController::class, 'update']);
+    Route::delete('/copies/{copy}', [CopyController::class, 'destroy']);
 });
