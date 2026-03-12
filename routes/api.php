@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/category', [CategoryController::class, 'index']);
 Route::get('/category/{category}', [CategoryController::class, 'show']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('/categories', [CategoryController::class, 'store']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/books', [BookController::class, 'index']);
 Route::get('/books/{book}', [BookController::class, 'show']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('/books', [BookController::class, 'store']);
     Route::put('/books/{book}', [BookController::class, 'update']);
     Route::delete('/books/{book}', [BookController::class, 'destroy']);
@@ -40,7 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/copies', [CopyController::class, 'index']);
 Route::get('/copies/{copy}', [CopyController::class, 'show']);
 
-Route::middleware('auth:sanctum')->group(function (){
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('/copies', [CopyController::class, 'store']);
     Route::put('/copies/{copy}', [CopyController::class, 'update']);
     Route::delete('/copies/{copy}', [CopyController::class, 'destroy']);

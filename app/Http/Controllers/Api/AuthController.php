@@ -22,6 +22,7 @@ class AuthController extends Controller
             'email' => $validated['email'],
             'password' => $validated['password'],
             'role' => 'lecteur',
+            'is_admin' => false,
         ]);
 
         $token = $user->createToken('api-token')->plainTextToken;
@@ -42,11 +43,12 @@ class AuthController extends Controller
 
         $user = User::where('email', $validated['email'])->first();
 
-        if(!$user || !Hash::check($validated['password'], $user->password)) {
+        if (!$user || !Hash::check($validated['password'], $user->password)) {
             return response()->json([
                 'message' => 'Invalide credentials',
             ], 401);
-        };
+        }
+        ;
 
         $token = $user->createToken('api-token')->plainTextToken;
 
@@ -60,7 +62,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-        
+
         return response()->json([
             'message' => 'Logout Successful',
         ]);
