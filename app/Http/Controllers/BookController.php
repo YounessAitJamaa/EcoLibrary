@@ -15,11 +15,11 @@ class BookController extends Controller
     {
         $query = Book::with('category');
 
-        if($request->filled('category_id')) {
+        if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
 
-        if($request->filled('search')) {
+        if ($request->filled('search')) {
             $search = $request->search;
 
             $query->where(function ($q) use ($search) {
@@ -31,20 +31,18 @@ class BookController extends Controller
             });
         }
 
-        if($request->boolean('available'))
-        {
+        if ($request->boolean('available')) {
             $query->available();
         }
 
-        if($request->sort === 'popular')
-        {
+        if ($request->sort === 'popular') {
             $query->popular();
         } elseif ($request->sort === 'recent') {
             $query->newArrivals();
         } else {
             $query->latest();
         }
-        
+
         $books = $query->get();
 
         return response()->json([
@@ -66,24 +64,24 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'category_id'   => ['required', 'exists:categories,id'],
-            'title'         => ['required', 'string', 'max:255'],
-            'author'        => ['required', 'string', 'max:255'],
-            'slug'          => ['required', 'string', 'max:255', 'unique:books,slug'],
-            'description'   => ['nullable', 'string'],
+            'category_id' => ['required', 'exists:categories,id'],
+            'title' => ['required', 'string', 'max:255'],
+            'author' => ['required', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'max:255', 'unique:books,slug'],
+            'description' => ['nullable', 'string'],
         ]);
 
         $book = Book::create([
-            'category_id'   => $validate['category_id'],
-            'title'         => $validate['title'],
-            'author'        => $validate['author'],
-            'slug'          => $validate['slug'],
-            'description'   => $validate['description'] ?? null,
+            'category_id' => $validate['category_id'],
+            'title' => $validate['title'],
+            'author' => $validate['author'],
+            'slug' => $validate['slug'],
+            'description' => $validate['description'] ?? null,
         ]);
 
         return response()->json([
-            'message'   => 'Book Created Successfully',
-            'book'      => $book,
+            'message' => 'Book Created Successfully',
+            'book' => $book,
         ], 201);
     }
 
@@ -112,24 +110,24 @@ class BookController extends Controller
     public function update(Request $request, Book $book)
     {
         $validate = $request->validate([
-            'category_id'   => ['required', 'exists:categories,id'],
-            'title'         => ['required', 'string', 'max:255'],
-            'author'        => ['required', 'string', 'max:255'],
-            'slug'          => ['required', 'string', 'max:255', Rule::unique('books', 'slug')->ignore($book->id)],
-            'description'   => ['nullable', 'string'],
+            'category_id' => ['required', 'exists:categories,id'],
+            'title' => ['required', 'string', 'max:255'],
+            'author' => ['required', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'max:255', Rule::unique('books', 'slug')->ignore($book->id)],
+            'description' => ['nullable', 'string'],
         ]);
 
         $book->update([
-            'category_id'   => $validate['category_id'],
-            'title'         => $validate['title'],
-            'author'        => $validate['author'],
-            'slug'          => $validate['slug'],
-            'description'   => $validate['description'],
+            'category_id' => $validate['category_id'],
+            'title' => $validate['title'],
+            'author' => $validate['author'],
+            'slug' => $validate['slug'],
+            'description' => $validate['description'],
         ]);
 
         return response()->json([
-            'message'   => 'Book updated successfully',
-            'book'      => $book
+            'message' => 'Book updated successfully',
+            'book' => $book
         ]);
     }
 
